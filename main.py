@@ -1,4 +1,7 @@
 f = open("cityGoods.txt", "r")
+f.readline()
+f.readline()
+
 cities = [] 
 route = {}
 
