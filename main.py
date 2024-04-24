@@ -1,9 +1,14 @@
-f = open("cityGoods.txt", "r")
-f.readline()
-f.readline()
+import copy
 
-cities = [] 
+#opens city specialty file
+f = open("cityGoods.txt", "r")
+cities = []
 route = {}
+route2 = {}
+
+#gets rid of header
+f.readline()
+f.readline()
 
 # place file contents into a list
 for x in f:
@@ -21,20 +26,22 @@ for c in cities:
         route[c[0]] = [trade[0]]
       else:
         route[c[0]].append(trade[0])
-
+        
 '''
 Removes cities that end in a "dead end"; not part of loop or one-way leading to one.
 '''
 empty = True
+route2 = copy.deepcopy(route)
 while (empty):
   empty = False
   for r in route:
     for item in route[r]:
       if item not in route:
-        route[r].remove(item)
-    if route[r] == []:
-      del route[r]
+        route2[r].remove(item)
+    if route2[r] == []:
+      del route2[r]
       empty = True
+  route = copy.deepcopy(route2)
 
 #write routes into two files for later mapping
 f = open("cityRoutes.txt", "w")
@@ -45,3 +52,5 @@ for r in route:
     fl.write(str("(" + r + " > " + city + ")") + "\n")
 f.close()
 fl.close()
+
+print("cityRoutes.txt and cityRoutes2.txt have been created.")
